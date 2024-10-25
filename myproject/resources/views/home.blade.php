@@ -1,23 +1,28 @@
-@extends('layouts.app')
-
+@extends('layouts.layout')
+@section('title','Home')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+    <div class="row">
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+            @include('share.left_sidebar')
 
-                    {{ __('You are logged in!') }}
-                </div>
+        <div class="col-6">
+            @include('share.success_message')
+            @include('ideas.share.share')
+            <hr>
+                @forelse ($ideals as $idea)
+                <div class="mt-3">
+                    @include('ideas.share.card')
+                </div>         
+                @empty
+                    <p class="text-center mt-4">No Result Found</p>
+                @endforelse
+            <div class="mt-3">
+                {{$ideals->withQueryString()->links()}}
             </div>
         </div>
+        <div class="col-3">
+            @include('share.search')
+            @include('share.follow_box')
+        </div>
     </div>
-</div>
 @endsection

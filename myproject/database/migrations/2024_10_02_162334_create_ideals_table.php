@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('ideals', function (Blueprint $table) {
             $table->id();
             $table->string('content');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->unsignedInteger('like')->default(0);
             $table->timestamps();
         });

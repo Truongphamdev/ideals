@@ -8,15 +8,32 @@ data-bs-theme="dark">
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
+            @guest
+                
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/login">Login</a>
+                <a class="{{ (Route::is('login')) ? 'text-white bg-success rounded' : 'white-dark' }} nav-link" aria-current="page" href="{{ route('login') }}">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/register">Register</a>
+                <a class="{{ (Route::is('idea.register')) ? 'text-white bg-success rounded' : 'white-dark' }} nav-link" href="{{ route('idea.register') }}">Register</a>
             </li>
+            
+            @endguest
+            @auth  
+            @if (Auth::user()->is_admin)
             <li class="nav-item">
-                <a class="nav-link" href="/profile">Profile</a>
+                <a class="{{ (Route::is('admin.admin')) ? 'active' : 'white-dark'}} nav-link " href="{{ route('admin.admin')}} ">Admin DashBoard</a>
             </li>
+            @endif
+                <li class="nav-item">
+                    <a class="{{ (Route::is('user.show',Auth::user()->id)) ? 'active' : 'white-dark' }} nav-link " href="{{route('user.show',Auth::user()->id)}}">{{Auth::user()->name}}</a>
+                </li>
+                <li class="nav-item">
+                <form action="{{route('logout')}}" method="post">
+                    @csrf
+                    <button class="btn btn-block btn-danger">Logout</button>
+                </form>
+            </li>  
+            @endauth
         </ul>
     </div>
 </div>
